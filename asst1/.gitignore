@@ -1,0 +1,8 @@
+*.ppm
+objs
+*.swp
+mandelbrot
+build/
+bin/
+*.png
+.vscode/
