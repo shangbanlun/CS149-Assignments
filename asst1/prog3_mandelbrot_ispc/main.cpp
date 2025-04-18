@@ -19,7 +19,7 @@ extern void mandelbrotThread(
     int maxIterations,
     int output[]);
 
-extern void writePPMImage(
+extern void writePNGImage(
     int* data,
     int width, int height,
     const char *filename,
@@ -41,8 +41,7 @@ bool verifyResult (int *gold, int *result, int width, int height) {
     return 1;
 }
 
-void
-scaleAndShift(float& x0, float& x1, float& y0, float& y1,
+void scaleAndShift(float& x0, float& x1, float& y0, float& y1,
               float scale,
               float shiftX, float shiftY)
 {
@@ -140,7 +139,7 @@ int main(int argc, char** argv) {
     }
 
     printf("[mandelbrot serial]:\t\t[%.3f] ms\n", minSerial * 1000);
-    writePPMImage(output_serial, width, height, "mandelbrot-serial.ppm", maxIterations);
+    writePNGImage(output_serial, width, height, "mandelbrot-serial.png", maxIterations);
 
     // Clear out the buffer
     for (unsigned int i = 0; i < width * height; ++i)
@@ -158,7 +157,7 @@ int main(int argc, char** argv) {
     }
 
     printf("[mandelbrot ispc]:\t\t[%.3f] ms\n", minISPC * 1000);
-    writePPMImage(output_ispc, width, height, "mandelbrot-ispc.ppm", maxIterations);
+    writePNGImage(output_ispc, width, height, "mandelbrot-ispc.png", maxIterations);
 
 
     if (! verifyResult (output_serial, output_ispc, width, height)) {
@@ -177,19 +176,20 @@ int main(int argc, char** argv) {
     }
 
     double minTaskISPC = 1e30;
+    useTasks = true;
     if (useTasks) {
         //
         // Tasking version of the ISPC code
         //
         for (int i = 0; i < 3; ++i) {
             double startTime = CycleTimer::currentSeconds();
-            mandelbrot_ispc_withtasks(x0, y0, x1, y1, width, height, maxIterations, output_ispc_tasks);
+            mandelbrot_ispc_withtasks(x0, y0, x1, y1, width, height, maxIterations, 16, output_ispc_tasks);
             double endTime = CycleTimer::currentSeconds();
             minTaskISPC = std::min(minTaskISPC, endTime - startTime);
         }
 
         printf("[mandelbrot multicore ispc]:\t[%.3f] ms\n", minTaskISPC * 1000);
-        writePPMImage(output_ispc_tasks, width, height, "mandelbrot-task-ispc.ppm", maxIterations);
+        writePNGImage(output_ispc_tasks, width, height, "mandelbrot-task-ispc.png", maxIterations);
 
         if (! verifyResult (output_serial, output_ispc_tasks, width, height)) {
             printf ("Error : ISPC output differs from sequential output\n");

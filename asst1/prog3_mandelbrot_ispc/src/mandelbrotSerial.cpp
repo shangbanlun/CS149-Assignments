@@ -36,7 +36,7 @@
    NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-
+#include <iostream>
 
 static inline int mandel(float c_re, float c_im, int count)
 {
@@ -68,25 +68,28 @@ static inline int mandel(float c_re, float c_im, int count)
 // * width, height describe the size of the output image
 // * startRow, totalRows describe how much of the image to compute
 void mandelbrotSerial(
-    float x0, float y0, float x1, float y1,
-    int width, int height,
-    int startRow, int totalRows,
-    int maxIterations,
-    int output[])
+	float x0, float y0, 
+	float x1, float y1,
+	int width, int height,
+	int startRow, int totalRows,
+	int maxIterations,
+	int output[])
 {
-    float dx = (x1 - x0) / width;
-    float dy = (y1 - y0) / height;
+	float dx = (x1 - x0) / width;
+	float dy = (y1 - y0) / height;
 
-    int endRow = startRow + totalRows;
+	// int endRow = startRow + totalRows;
 
-    for (int j = startRow; j < endRow; j++) {
-        for (int i = 0; i < width; ++i) {
-            float x = x0 + i * dx;
-            float y = y0 + j * dy;
+	// for (int j = startRow; j < endRow; j++)
+	for (int j = 0; j < height; j++)
+	{
+		for (int i = 0; i < width; ++i)
+		{
+			float x = x0 + i * dx;
+			float y = y0 + j * dy;
 
-            int index = (j * width + i);
-            output[index] = mandel(x, y, maxIterations);
-        }
-    }
+			int index = (j * width + i);
+			output[index] = mandel(x, y, maxIterations);
+		}
+	}
 }
-
