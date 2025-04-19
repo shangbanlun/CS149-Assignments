@@ -3,9 +3,7 @@
 
 
 static inline int count_true_elements(__m256 mask) {
-    // Extract the sign bits of each 32-bit float element
     int bitmask = _mm256_movemask_ps(mask);
-    // Count the number of set bits (i.e., true elements)
     return __builtin_popcount(bitmask);
 }
 
@@ -50,6 +48,5 @@ void sqrtAVX2(int N, float initialGuess, float* values, float* output)
 
         _mm256_storeu_ps(output + i, _mm256_mul_ps(vecX, vecGuess));
         
-        // __m256 error = _mm256_andnot_ps();
     }
 }
