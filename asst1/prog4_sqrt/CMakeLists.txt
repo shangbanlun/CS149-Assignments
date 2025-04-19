@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.19)
 project(sqrt)
 
 # set(CMAKE_BUILD_TYPE Debug)
-set(CMAKE_BUILD_TYPE Release)
+# set(CMAKE_BUILD_TYPE Release)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 add_compile_options(-mavx2)
 
@@ -17,9 +17,7 @@ add_custom_command(
 )
 add_custom_target(sqrt_ispc ALL DEPENDS ${ISPC_OBJECT} ${ISPC_HEADER})
 
-
 include_directories(./include ../common)
-
 
 add_executable(sqrt main.cpp "./src/sqrtSerial.cpp" "./src/sqrtAXV2.cpp" "./src/tasksys.cpp")
 link_directories(${CMAKE_SOURCE_DIR}/lib)
