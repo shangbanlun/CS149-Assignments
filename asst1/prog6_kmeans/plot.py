@@ -4,10 +4,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 
-START_LOGFILE = "./start.log"
-END_LOGFILE = "./end.log"
-START_PLOTFILE = "./start.png"
-END_PLOTFILE = "./end.png"
+START_LOGFILE = "./bin/start.log"
+END_LOGFILE = "./bin/end.log"
+START_PLOTFILE = "./bin/start.png"
+END_PLOTFILE = "./bin/end.png"
 
 for title, logfile, plotfile in [("Start", START_LOGFILE, START_PLOTFILE), ("End", END_LOGFILE, END_PLOTFILE)]:
 
